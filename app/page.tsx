@@ -15,7 +15,7 @@ export default function Home() {
       try {
         let config = {
           method:"get",
-          url:"/api/checking",
+          url:"/api/user-registration",
           headers: {
             "Content-Type": "application/json",
           },

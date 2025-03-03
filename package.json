@@ -14,6 +14,8 @@
     "dotenv": "^16.4.7",
     "mongoose": "^8.11.0",
     "next": "15.2.0",
+    "node-fetch": "^3.3.2",
+    "node-geocoder": "^4.4.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },
@@ -22,6 +24,7 @@
     "@tailwindcss/postcss": "^4",
     "@types/bcrypt": "^5.0.2",
     "@types/node": "^20",
+    "@types/node-geocoder": "^4.2.6",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",

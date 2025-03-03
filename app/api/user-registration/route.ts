@@ -1,7 +1,7 @@
-import User from "@/app/schema/user-schema";
 import dbConnect from "@/lib/dbConnect";
 import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcrypt";
+import User from "@/app/schema/user-schema";
 
 export async function POST(req: NextRequest): Promise<NextResponse> {
 
