@@ -3,7 +3,7 @@ import mongoose, { Schema, Document } from 'mongoose';
 interface CafeLocation {
     address: string;
     city: string;
-    state:string;
+    state: string;
     country: string;
     coordinates: {
         type: [number]; // Ensures an array of numbers (latitude, longitude)
@@ -17,25 +17,27 @@ interface Icafe extends Document {
     images_url: string[];
     capacity: number;
     isActive?: boolean;
+    createdAt?: Date;
+    updatedAt?: Date;
 }
 
 const cafeSchema = new Schema<Icafe>({
     club_name: { type: String, required: true },
     location: {
         address: { type: String, required: true },
-        state: { type: String, required:true},
+        state: { type: String, required: true },
         city: { type: String, required: true },
         country: { type: String, required: true },
         coordinates: {
-            type: [Number], 
+            type: [Number],
             required: true,
-            index: '2dsphere' 
+            index: '2dsphere'
         }
-    }, 
+    },
     images_url: { type: [String], required: true },
     capacity: { type: Number, required: true },
-    isActive: { type: Boolean , required: false, default: false },
-}, { toJSON: { virtuals: true }, toObject: { virtuals: true } });
+    isActive: { type: Boolean, required: false, default: false },
+}, {timestamps: true, toJSON: { virtuals: true }, toObject: { virtuals: true } });
 
 const Cafe = mongoose.models.Cafes || mongoose.model<Icafe>('Cafes', cafeSchema);
 

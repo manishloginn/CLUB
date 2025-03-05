@@ -15,18 +15,13 @@ async function dbConnect() : Promise<void> {
         console.log("✅ Using existing database connection.");
         return
     }
-
-    try {
-        
+    try {  
         const db = await mongoose.connect(process.env.MONGODB_URI as string || "" , {})
-
         connection.isConnect = db.connections[0].readyState
         console.log("🔄 Attempting to connect to MongoDB...");
-
     } catch (error) {
         console.error("❌ MongoDB connection error:", error);
-        throw error;
-        
+        throw error;    
     }
 
 }

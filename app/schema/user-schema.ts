@@ -8,6 +8,8 @@ interface IUser extends Document {
   password: string;
   mobile_no: number;
   age: number;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 const UserSchema = new Schema<IUser>({
@@ -16,7 +18,9 @@ const UserSchema = new Schema<IUser>({
   password: { type: String, required: true },
   mobile_no: { type: Number, required: true },
   age: { type: Number, required: true },
-});
+}, 
+{ timestamps: true }
+);
 
 const User = mongoose.models.User || mongoose.model<IUser>("User", UserSchema);
 

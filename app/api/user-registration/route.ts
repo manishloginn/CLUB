@@ -35,7 +35,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
 
     console.log("Received Data:", { email, password });
 
-    return NextResponse.json({ newUser }, { status: 200 });
+    return NextResponse.json({ user:newUser, message:"Registration Successfull" }, { status: 200 });
   } catch (error) {
     return NextResponse.json({ error: (error as Error).message }, { status: 400 });
   }

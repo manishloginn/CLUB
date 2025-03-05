@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 import { NextRequest, NextResponse } from 'next/server';
 import Cafe from '@/app/schema/cafe-schema';
-import { getCoordinates } from './utils/getCoordinates';
+import { getCoordinates } from '../../utils/getCoordinates';
 import dbConnect from '@/lib/dbConnect';
 
 export async function POST(req: NextRequest) {
@@ -58,7 +58,7 @@ export async function POST(req: NextRequest) {
 
         await newCafe.save();
 
-        return NextResponse.json(newCafe, { status: 201 });
+        return NextResponse.json({newCafe, message:"Registration Successfull"}, { status: 201 });
     } catch (error) {
         console.error('Error:', error);
         return NextResponse.json({ message: (error as Error).message }, { status: 500 });

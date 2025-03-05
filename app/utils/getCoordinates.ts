@@ -12,6 +12,7 @@ const options: NodeGeocoder.Options = {
 const geocoder = NodeGeocoder(options);
 
 export async function getCoordinates( city: string, state:string, country: string) {
+    
     try {
         const res = await geocoder.geocode(` ${city}, ${state}, ${country}`);
         
