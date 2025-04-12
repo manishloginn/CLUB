@@ -17,6 +17,7 @@ interface Icafe extends Document {
     images_url: string[];
     capacity: number;
     isActive?: boolean;
+    password: string;
     createdAt?: Date;
     updatedAt?: Date;
 }
@@ -34,6 +35,7 @@ const cafeSchema = new Schema<Icafe>({
             index: '2dsphere'
         }
     },
+    password: { required: true, type: String },
     images_url: { type: [String], required: true },
     capacity: { type: Number, required: true },
     isActive: { type: Boolean, required: false, default: false },

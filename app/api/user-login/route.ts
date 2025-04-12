@@ -11,7 +11,10 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
         const body = await req.json();
         const { email, password } = body;
 
+      
         const user = await User.findOne({ email });
+
+       
 
         if (!user) {
             return NextResponse.json({ error: "Invalid email or password" }, { status: 400 });
