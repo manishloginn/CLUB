@@ -1,11 +1,15 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  reactStrictMode: false,
+  compiler: {
+    removeConsole: process.env.NODE_ENV === 'production',
+  },
   eslint: {
-    ignoreDuringBuilds: true, // 👈 Ignores lint errors during build
+    ignoreDuringBuilds: true, // 💥 Ignore lint errors in Vercel
   },
   typescript: {
-    ignoreBuildErrors: true, // 👈 Ignores TypeScript errors during build
+    ignoreBuildErrors: true, // 💥 Ignore TS errors in Vercel
   },
 };
 
-module.exports = nextConfig;
+export default nextConfig;
