@@ -55,7 +55,7 @@ export const handleBooking = async ({
         },
       };
   
-      const rzp = new window.Razorpay(options);
+      const rzp = new (window as any).Razorpay(options);
       rzp.open();
     } catch (error) {
       alert("Booking Error: " + (error instanceof Error ? error.message : "Unknown error"));
