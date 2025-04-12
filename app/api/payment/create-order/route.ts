@@ -41,11 +41,11 @@ export async function POST(req: NextRequest) {
             amount: order.amount,
             currency: order.currency,
         });
-    } catch (error: any) {
+    } catch (error: unknown) {
         console.error("🔴 Error creating order:", error);
         return NextResponse.json({
             message: 'Order creation failed',
-            error: error.message || 'Unknown error',
+            error: error instanceof Error ? error.message : 'Unknown error',
         }, { status: 500 });
     }
 }

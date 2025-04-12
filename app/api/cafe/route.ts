@@ -1,8 +1,8 @@
-import { NextRequest, NextResponse } from 'next/server';
+import {  NextResponse } from 'next/server';
 import dbConnect from '@/lib/dbConnect';
 import Cafe from '@/app/schema/cafe-schema'; // Assuming you have a Cafe schema
 
-export async function GET(req: NextRequest ) {
+export async function GET( ) {
 
   try {
     await dbConnect();

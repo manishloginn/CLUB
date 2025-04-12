@@ -1,10 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
-import mongoose from 'mongoose';
 import dbConnect from '@/lib/dbConnect';
 import Booking from '@/app/schema/booking-schema';
 import MenuItem from '@/app/schema/menu-schema'; // assuming this is your menu schema
 import Razorpay from 'razorpay';
-import axios from 'axios';
 
 
 const razorpay = new Razorpay({
