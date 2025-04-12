@@ -51,7 +51,7 @@ export async function POST(req: NextRequest) {
         const newBooking = new Booking({
             userId,
             cafeId,
-            menuItems: comboNames, // Store combo names only
+            menuItems: comboNames, 
             date,
             timeSlot,
             numberOfPeople,
@@ -65,6 +65,7 @@ export async function POST(req: NextRequest) {
             currency: 'INR',
             receipt: `receipt_${newBooking._id}`,
         };
+        
 
         const order = await razorpay.orders.create(razorOptions);
 
