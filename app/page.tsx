@@ -4,9 +4,8 @@ import { handleBooking } from "@/app/utils/handleBooking";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { capitalize } from "./utils/capitalize";
-import Cookies from "js-cookie";
+import {jwtDecode} from 'jwt-decode';
 import { useRouter } from "next/navigation";
-const jwt = require('jsonwebtoken');
 
 
 
@@ -57,52 +56,53 @@ export default function HomePage() {
 
 
 
-  const onBook = () => {
+  const onBook = async () => {
     if (!selectedCafe || selectedItems.length === 0) {
       alert("Please select menu items to book!");
       return;
     }
-
-    let userToken = null; 
-
-    const userTokencookie = Cookies.get("userToken");
-    if (!userTokencookie || userToken == null) {
-      router.push("/login");
-      alert("User not authenticated. Please log in.");
-      return;
-    }
-
   
-
-    if (userTokencookie) {
-      try {
-        const decoded = jwt.verify(userTokencookie, process.env.JWT_SECRET);
-
-        // Extract the ID from the decoded token
-         userToken = decoded.id;
-
-        console.log('User ID:', userToken);
-      } catch (err) {
-        if (err instanceof Error) {
-          console.error('Token verification failed:', err.message);
-        } else {
-          console.error('Token verification failed:', err);
-        }
-      }
+    const userTokencookie = localStorage.getItem("userToken");
+  
+    if (!userTokencookie) {
+      throw new Error("User token is missing");
     }
-
-
-    handleBooking({
-      userId: userToken,
-      cafeId: selectedCafe._id,
-      menuItemIds: selectedItems,
-      date: bookingInfo.date,
-      timeSlot: bookingInfo.timeSlot,
-      numberOfPeople: bookingInfo.numberOfPeople,
-    });
-
-    setSelectedCafe(null); // Close modal after booking
+  
+    try {
+      // 👇 Define a type for your decoded token
+      interface DecodedToken {
+        userDetail: {
+          _id: string;
+          email?: string;
+          name?: string;
+          mobile_no?: number;
+        };
+        iat?: number;
+        exp?: number;
+      }
+      
+  
+      const decodedToken = jwtDecode<DecodedToken>(userTokencookie);
+      console.log("Decoded Token:", decodedToken?.userDetail);
+  
+      await handleBooking({
+        userId: decodedToken?.userDetail?._id || '', 
+        cafeId: selectedCafe._id,
+        menuItemIds: selectedItems,
+        date: bookingInfo.date,
+        timeSlot: bookingInfo.timeSlot,
+        numberOfPeople: bookingInfo.numberOfPeople,
+      });
+      
+  
+      setSelectedCafe(null);
+    } catch (err) {
+      console.error("Invalid token:", err);
+      alert("Invalid token!");
+    }
   };
+  
+  
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 to-black p-8">

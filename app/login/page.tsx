@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Cookies from 'js-cookie';
 
+
 export default function LoginPage() {
   const router = useRouter();
   const [email, setEmail] = useState('');
@@ -32,7 +33,7 @@ export default function LoginPage() {
       }
 
       // ✅ Set cookie named "userToken"
-      Cookies.set('userToken', data.token, { expires: 7 });
+      localStorage.setItem('userToken', data.token);
 
       // ✅ Redirect after login
       router.push('/');
