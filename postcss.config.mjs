@@ -3,9 +3,3 @@ const config = {
 };
 
 export default config;
-module.exports = {
-  plugins: {
-    '@tailwindcss/postcss': {},
-    autoprefixer: {},
-  }
-}
