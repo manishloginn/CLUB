@@ -104,27 +104,89 @@ export default function HomePage() {
       <div className="p-8 max-w-7xl mx-auto">
         <header className="text-center mb-16">
           {/* Premium Club Chale Logo */}
-          <div className="flex flex-col items-center justify-center mb-6">
-            <div className="relative">
-              {/* Logo Symbol */}
-              <div className="w-24 h-24 rounded-full bg-gradient-to-br from-purple-600 to-pink-500 flex items-center justify-center shadow-lg shadow-purple-500/30 mb-4 mx-auto">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-12 w-12 text-white"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                >
-                  <path fillRule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clipRule="evenodd" />
-                </svg>
+
+          {/* Luxury Nightlife Header */}
+          <div className="relative isolate overflow-hidden py-24 group h-[80vh] min-h-[600px] flex items-center justify-center">
+            {/* Particle Background */}
+            <div className="absolute inset-0 overflow-hidden">
+              {[...Array(30)].map((_, i) => (
+                <div
+                  key={i}
+                  className="absolute rounded-full bg-pink-400/20"
+                  style={{
+                    top: `${Math.random() * 100}%`,
+                    left: `${Math.random() * 100}%`,
+                    width: `${Math.random() * 10 + 5}px`,
+                    height: `${Math.random() * 10 + 5}px`,
+                    animation: `float ${Math.random() * 10 + 10}s linear infinite`,
+                    opacity: Math.random() * 0.4 + 0.1
+                  }}
+                />
+              ))}
+            </div>
+
+            {/* Animated Light Beams */}
+            <div className="absolute inset-0 overflow-hidden [mask-image:radial-gradient(ellipse_at_center,transparent_30%,black)]">
+              {[...Array(5)].map((_, i) => (
+                <div
+                  key={i}
+                  className="absolute top-1/2 left-1/2 w-[300px] h-[800px] bg-gradient-to-b from-purple-500/10 via-transparent to-transparent"
+                  style={{
+                    transform: `translate(-50%,-50%) rotate(${i * 72}deg)`,
+                    animation: `rotate 60s linear infinite`
+                  }}
+                />
+              ))}
+            </div>
+
+            {/* Glass Morphic Container */}
+            <div className="relative z-10 backdrop-blur-xl bg-black/50 border border-white/10 rounded-2xl p-12 mx-4 shadow-2xl shadow-purple-500/10 group-hover:shadow-pink-500/20 transition-all duration-500">
+              {/* Animated Starburst */}
+              <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-40 h-40 [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_70%)]">
+                <div className="absolute inset-0 bg-[conic-gradient(from_0deg,transparent_0deg,theme(colors.pink.400)_60deg,transparent_120deg)] animate-spin-slow [animation-duration:20s]" />
+                <div className="absolute inset-0 bg-[conic-gradient(from_90deg,transparent_0deg,theme(colors.purple.400)_60deg,transparent_120deg)] animate-spin-slow [animation-duration:15s]" />
               </div>
 
-              {/* Logo Text */}
-              {/* <h1 className="text-5xl font-bold bg-gradient-to-r from-purple-400 via-pink-400 to-purple-500 bg-clip-text text-transparent mb-2">
-                Club Chale
-              </h1> */}
-              <p className="text-gray-300 text-lg tracking-wider">
-                PREMIUM NIGHTLIFE EXPERIENCES
-              </p>
+              {/* Main Content */}
+              <div className="text-center">
+                {/* Decorative Elements */}
+                <div className="flex justify-center mb-8">
+                  <div className="relative h-1 w-32 overflow-hidden">
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-pink-400 to-transparent animate-marquee" />
+                  </div>
+                </div>
+
+                {/* Liquid Metal Text */}
+                <h1 className="text-7xl md:text-8xl xl:text-9xl font-bold mb-6 tracking-tight">
+                  <span className="text-transparent bg-clip-text bg-[url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=3000')] bg-cover bg-center animate-text-pan">
+                    {/* NIGHTLIFE */}
+                  </span>
+                </h1>
+
+                {/* Animated Subheading */}
+                <div className=" h-20">
+                  <p className="text-xl tracking-[0.5em] text-gray-300/90 translate-y-0 group-hover:-translate-y-4 transition-transform duration-700">
+                    THE ULTIMATE NOCTURNAL EXPERIENCE
+                  </p>
+                  <p className="text-xl tracking-[0.5em] text-gray-300/90 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-700">
+                    WHERE LEGENDS ARE BORN
+                  </p>
+                </div>
+
+                {/* Animated Divider */}
+                <div className="relative my-8 h-px w-full overflow-hidden">
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-purple-400/40 to-transparent animate-line-expand" />
+                </div>
+
+                {/* Hover-Activated CTA */}
+                <div className="mt-8 opacity-0 group-hover:opacity-100 transition-opacity duration-1000">
+                  <button className="relative overflow-hidden px-8 py-3 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full text-white font-medium tracking-wider group/btn">
+                    <span className="relative z-10">RESERVE YOUR NIGHT</span>
+                    <span className="absolute inset-0 bg-gradient-to-r from-pink-600 to-purple-600 opacity-0 group-hover/btn:opacity-100 transition-opacity duration-300" />
+                    <span className="absolute -inset-1 rounded-full bg-white/10 opacity-0 group-hover/btn:opacity-100 group-hover/btn:animate-pulse-slow" />
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
 

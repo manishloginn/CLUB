@@ -1,8 +1,9 @@
-// components/Navbar.tsx
 'use client';
+
 import Link from 'next/link';
 import { jwtDecode } from 'jwt-decode';
 import { useRouter } from 'next/navigation';
+import { useState, useRef, useEffect } from 'react';
 
 interface DecodedToken {
   userDetail: {
@@ -15,12 +16,33 @@ interface DecodedToken {
 
 export default function Navbar() {
   const router = useRouter();
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
   const userToken = typeof window !== 'undefined' ? localStorage.getItem('userToken') : null;
   const user = userToken ? jwtDecode<DecodedToken>(userToken) : null;
 
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
   const handleLogout = () => {
     localStorage.removeItem('userToken');
-    router.push('/login');
+    setIsDropdownOpen(false);
+    router.push('/login'); // Redirect to login after logout
+  };
+
+  const toggleDropdown = () => {
+    setIsDropdownOpen(!isDropdownOpen);
   };
 
   return (
@@ -63,41 +85,49 @@ export default function Navbar() {
           {/* User Section */}
           <div className="flex items-center gap-4">
             {user ? (
-              <div className="relative group flex items-center gap-4">
+              <div className="flex items-center gap-4">
                 <Link href="/bookings" className="hidden sm:block text-sm font-medium px-4 py-2 rounded-lg bg-gray-800 hover:bg-gray-700 transition-colors text-gray-200">
                   My Bookings
                 </Link>
                 
-                <div className="relative">
-                  <button className="flex items-center gap-2">
+                <div className="relative" ref={dropdownRef}>
+                  <button 
+                    className="flex items-center gap-2 focus:outline-none"
+                    onClick={toggleDropdown}
+                    aria-label="User menu"
+                    aria-expanded={isDropdownOpen}
+                  >
                     <div className="w-9 h-9 rounded-full bg-gradient-to-br from-purple-500 to-pink-400 flex items-center justify-center text-white font-medium shadow-md">
                       {user.userDetail?.name?.[0]?.toUpperCase() || user.userDetail?.email?.[0]?.toUpperCase() || 'U'}
                     </div>
                   </button>
                   
                   {/* Dropdown */}
-                  <div className="hidden group-hover:block absolute right-0 mt-2 w-48 bg-gray-800 rounded-lg shadow-xl border border-gray-700 overflow-hidden z-10">
-                    <div className="px-4 py-3 border-b border-gray-700">
-                      <p className="text-sm font-medium text-white truncate">
-                        {user.userDetail?.name || user.userDetail?.email}
-                      </p>
-                      {user.userDetail?.email && (
-                        <p className="text-xs text-gray-400 truncate">{user.userDetail.email}</p>
-                      )}
+                  {isDropdownOpen && (
+                    <div className="absolute right-0 mt-2 w-48 bg-gray-800 rounded-lg shadow-xl border border-gray-700 overflow-hidden z-10">
+                      <div className="px-4 py-3 border-b border-gray-700">
+                        <p className="text-sm font-medium text-white truncate">
+                          {user.userDetail?.name || user.userDetail?.email}
+                        </p>
+                        {user.userDetail?.email && (
+                          <p className="text-xs text-gray-400 truncate">{user.userDetail.email}</p>
+                        )}
+                      </div>
+                      <Link 
+                        href="/profile" 
+                        className="block px-4 py-3 text-sm text-gray-300 hover:bg-gray-700 transition-colors"
+                        onClick={() => setIsDropdownOpen(false)}
+                      >
+                        Profile Settings
+                      </Link>
+                      <button
+                        onClick={handleLogout}
+                        className="block w-full text-left px-4 py-3 text-sm text-gray-300 hover:bg-gray-700 transition-colors border-t border-gray-700"
+                      >
+                        Logout
+                      </button>
                     </div>
-                    <Link 
-                      href="/profile" 
-                      className="block px-4 py-3 text-sm text-gray-300 hover:bg-gray-700 transition-colors"
-                    >
-                      Profile Settings
-                    </Link>
-                    <button
-                      onClick={handleLogout}
-                      className="block w-full text-left px-4 py-3 text-sm text-gray-300 hover:bg-gray-700 transition-colors border-t border-gray-700"
-                    >
-                      Logout
-                    </button>
-                  </div>
+                  )}
                 </div>
               </div>
             ) : (
