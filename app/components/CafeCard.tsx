@@ -18,7 +18,6 @@ export const CafeCard = ({ cafe, onSelect }: CafeCardProps) => {
     return (
         <div
             className="relative bg-gray-900 rounded-2xl overflow-hidden shadow-2xl hover:shadow-3xl transition-all duration-500 cursor-pointer border border-gray-700/50 hover:border-purple-400/30 group"
-            onClick={() => onSelect(cafe)}
         >
             {/* Aspect Ratio Fixed */}
             <div className="aspect-[5/6] sm:aspect-[4/3] relative">
@@ -57,7 +56,9 @@ export const CafeCard = ({ cafe, onSelect }: CafeCardProps) => {
             </div>
 
             {/* Info Section */}
-            <div className="p-4 sm:p-5 space-y-2 sm:space-y-3 bg-gradient-to-t from-black/90 via-black/70 to-transparent">
+            <div className="p-4 sm:p-5 space-y-2 sm:space-y-3 bg-gradient-to-t from-black/90 via-black/70 to-transparent"
+                onClick={() => onSelect(cafe)}
+            >
                 <div className="flex items-center justify-between">
                     <h3 className="text-xl sm:text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-300">
                         {capitalize(cafe.club_name)}
@@ -101,7 +102,9 @@ export const CafeCard = ({ cafe, onSelect }: CafeCardProps) => {
             </div>
 
             {/* Hover Overlay */}
-            <div className="absolute inset-0 hidden group-hover:flex items-center justify-center bg-black/40 transition-opacity">
+            <div className="absolute inset-0 hidden group-hover:flex items-center justify-center bg-black/40 transition-opacity"
+                onClick={() => onSelect(cafe)}
+            >
                 <span className="px-3 py-1.5 sm:px-4 sm:py-2 rounded-full bg-purple-400/10 border border-purple-400/20 text-purple-300 font-semibold text-xs sm:text-sm backdrop-blur-sm">
                     View Details →
                 </span>
