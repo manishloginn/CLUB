@@ -15,6 +15,6 @@ export async function GET(req: NextRequest) {
     const cafe = await Cafe.findById(cafeId).populate("menuItems"); // Assuming 'menuItems' is a ref
     return NextResponse.json({ menu: cafe.menuItems });
   } catch (err) {
-    return NextResponse.json({ message: (err as Error).message }, { status: 500 });
+    return NextResponse.json({ message: "Error fetching menu" }, { status: 500 });
   }
 }
