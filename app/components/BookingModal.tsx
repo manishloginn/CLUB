@@ -8,7 +8,7 @@ import { Cafe } from '../types';
 interface BookingModalProps {
   cafe: Cafe;
   onClose: () => void;
-  onBook: () => void;
+  onBook: () => Promise<void>;
   selectedItems: string[];
   setSelectedItems: (items: string[]) => void;
   bookingInfo: any;
