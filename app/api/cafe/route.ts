@@ -16,18 +16,19 @@ export async function GET(req: Request) {
 
     
     if (location) {
+      const locationWords = location.split(/\s+/); // Split by space
       query = {
-        $or: [
-          { 'location.city': new RegExp(location, 'i') },  // Match city
-          { 'location.state': new RegExp(location, 'i') }  // Match state
-        ]
+        $or: locationWords.flatMap((word) => [
+          { 'location.city': new RegExp(word, 'i') },
+          { 'location.state': new RegExp(word, 'i') }
+        ])
       };
     }
 
     // Fetch cafes with menu items based on the query (location filter)
     const cafes = await Cafe.aggregate([
       {
-        $match: query // Apply the location filter
+        $match: query 
       },
       {
         $lookup: {

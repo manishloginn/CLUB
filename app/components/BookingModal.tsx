@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { MenuItemList } from './MenuItem';
 import { BookingForm } from './BookingForm';
 import { Cafe } from '../types';
+import { capitalize } from '../utils/capitalize';
 
 interface BookingModalProps {
   cafe: Cafe;
@@ -33,8 +34,10 @@ export const BookingModal = ({
         &times;
       </button>
 
-      <h2 className="text-3xl text-white font-bold mb-6">{cafe.club_name}</h2>
-      <MenuItemList 
+      <h3 className="text-xl sm:text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-300">
+        {capitalize(cafe.club_name)}
+      </h3>
+      <MenuItemList
         menu={cafe.menuItems || []}
         selectedItems={selectedItems}
         setSelectedItems={setSelectedItems}
