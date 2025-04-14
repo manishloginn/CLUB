@@ -34,7 +34,7 @@ export default function RazorpayPage() {
       const { razorpayOrder, booking } = data;
 
       const options = {
-        key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID, // Add this to .env
+        key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID, 
         amount: razorpayOrder.amount,
         currency: razorpayOrder.currency,
         name: "Cafe Booking",
@@ -42,6 +42,7 @@ export default function RazorpayPage() {
         order_id: razorpayOrder.id,
         handler: function (response: any) {
           alert("Payment successful! 🎉");
+          console.log('check working or not')
           console.log("Payment Details:", response);
         },
         prefill: {

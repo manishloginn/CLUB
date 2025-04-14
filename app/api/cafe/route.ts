@@ -16,7 +16,7 @@ export async function GET(req: Request) {
 
     
     if (location) {
-      const locationWords = location.split(/\s+/); // Split by space
+      const locationWords = location.split(/\s+/); 
       query = {
         $or: locationWords.flatMap((word) => [
           { 'location.city': new RegExp(word, 'i') },

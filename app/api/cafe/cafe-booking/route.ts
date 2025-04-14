@@ -3,6 +3,7 @@ import dbConnect from '@/lib/dbConnect';
 import Booking from '@/app/schema/booking-schema';
 import MenuItem from '@/app/schema/menu-schema'; // assuming this is your menu schema
 import Razorpay from 'razorpay';
+import { i } from 'framer-motion/client';
 
 
 const razorpay = new Razorpay({
@@ -28,8 +29,8 @@ export async function POST(req: NextRequest) {
             return NextResponse.json({ message: 'Missing required fields' }, { status: 400 });
         }
 
-        if (numberOfPeople < 1 || numberOfPeople > 10) {
-            return NextResponse.json({ message: 'You can book for 1 to 10 people only.' }, { status: 400 });
+        if (numberOfPeople < 1 || numberOfPeople > 50) {
+            return NextResponse.json({ message: 'You can book for 1 to 50 people only.' }, { status: 400 });
         }
 
 
@@ -56,6 +57,7 @@ export async function POST(req: NextRequest) {
             timeSlot,
             numberOfPeople,
             totalPrice,
+            order_id: null,
             status: 'Pending'
         });
         await newBooking.save();
@@ -68,6 +70,32 @@ export async function POST(req: NextRequest) {
         
 
         const order = await razorpay.orders.create(razorOptions);
+
+        
+        if (!order) {
+            return NextResponse.json({ message: 'Failed to create payment order' }, { status: 500 });
+        }
+        if(order.status === 'created') {
+            const updateBooking = await Booking.findByIdAndUpdate(newBooking._id, 
+            {
+                status: order.status,
+                order_id: order.id || "",
+            })
+        }
+        // 🔵 Razorpay order created: {
+        //     amount: 219900,
+        //     amount_due: 219900,
+        //     amount_paid: 0,
+        //     attempts: 0,
+        //     created_at: 1744654745,
+        //     currency: 'INR',
+        //     entity: 'order',
+        //     id: 'order_QJ2ANhtHNgUUfZ',
+        //     notes: [],
+        //     offer_id: null,
+        //     receipt: 'receipt_67fd5197deff8943ce0e3f18',
+        //     status: 'created'
+        //   }
 
 
         return NextResponse.json({

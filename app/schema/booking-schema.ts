@@ -8,6 +8,7 @@ interface IBooking extends Document {
   timeSlot: string; // e.g., "7:00 PM - 9:00 PM"
   numberOfPeople: number;
   totalPrice: number;
+  order_id: string;
   status: string;
 }
 
@@ -24,6 +25,7 @@ const bookingSchema = new Schema<IBooking>({
       max: 10
     },
     totalPrice: { type: Number, required: true },
+    order_id: { type: String, required: false , default: ""},
     status: { type: String, default: "Pending" }
   }, { timestamps: true });
   
