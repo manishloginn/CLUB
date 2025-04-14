@@ -18,7 +18,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
 
     
     try {
-        const updateBooking = await Booking.findOneAndUpdate({ order_id}, { status: "webhook check" }, { new: true });
+        const updateBooking = await Booking.findOneAndUpdate({ order_id}, { status: "SUCCESS" }, { new: true });
         const updateCollectRequest = await new BookingCollectRequest({
             collect_id: updateBooking?._id,
             order_amount: updateBooking?.totalPrice,
@@ -27,7 +27,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
             details: details,
             bank_reference: acquirer_data.bank_transaction_id || acquirer_data.rrn,
             payment_time: Date.now().toString(),
-            reason: '',
+            reason: error_reason,
             payment_message: event,
             payment_id: id,
         })
