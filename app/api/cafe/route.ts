@@ -12,7 +12,8 @@ export async function GET(req: Request) {
     await dbConnect();
     console.log("🔄 Attempting to connect to MongoDB...");
 
-    let query: any = {};
+    let query: any = {
+    };
 
     
     if (location) {
@@ -25,18 +26,22 @@ export async function GET(req: Request) {
       };
     }
 
+    console.log(query)
     // Fetch cafes with menu items based on the query (location filter)
     const cafes = await Cafe.aggregate([
       {
-        $match: query 
+      $match: {
+        ...query,
+        isActive: true
+      }
       },
       {
-        $lookup: {
-          from: "menus",
-          localField: "_id",
-          foreignField: "cafeId",
-          as: "menuItems"
-        }
+      $lookup: {
+        from: "menus",
+        localField: "_id",
+        foreignField: "cafeId",
+        as: "menuItems"
+      }
       }
     ]);
 

@@ -67,6 +67,7 @@ export async function POST(req: NextRequest) {
             collect_id: newBooking?._id,
             order_amount: newBooking?.totalPrice,
             transaction_amount: newBooking?.totalPrice,
+            date,
             status: "PENDING",
             details: "",
             bank_reference: "",

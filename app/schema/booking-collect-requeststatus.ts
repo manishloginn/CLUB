@@ -4,6 +4,7 @@ interface IBookingCollectRequest extends Document {
   collect_id: mongoose.Types.ObjectId;
   order_amount: number;
   transaction_amount: number;
+  date: Date;
   status: string;
   details: string;
   bank_reference: string;
@@ -17,6 +18,7 @@ const bookingCollectRequestSchema = new Schema<IBookingCollectRequest>({
   collect_id: { type: Schema.Types.ObjectId, ref: 'Booking', required: true },
   order_amount: { type: Number, required: true },
   transaction_amount: { type: Number, required: true },
+  date: { type: Date, required: true },
   status: { type: String, default: "Pending" },
   details: { type: String },
   bank_reference: { type: String },
