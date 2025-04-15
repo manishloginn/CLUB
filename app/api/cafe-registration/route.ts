@@ -10,9 +10,10 @@ export async function POST(req: NextRequest) {
         await dbConnect();
 
         const body = await req.json();
-        const { club_name, location, images_url, capacity, password } = body;
+        const { club_name, location, images_url, capacity, password, email_id } = body;
 
-        if (!club_name || !location || !images_url || !capacity || !password) {
+        // console.log(club_name, location, images_url, capacity, password, email_id)
+        if (!club_name || !location || !images_url || !capacity || !password || !email_id) {
             return NextResponse.json({ message: 'Missing required fields' }, { status: 400 });
         }
 
@@ -22,15 +23,20 @@ export async function POST(req: NextRequest) {
             return NextResponse.json({ message: 'Invalid location format. Address, city, state, and country are required.' }, { status: 400 });
         }
 
-        if (typeof capacity !== 'number' || capacity <= 0) {
+        if (capacity <= 0) {
             return NextResponse.json({ message: 'Capacity must be a positive number' }, { status: 400 });
         }
+
+        const findBymail = await Cafe.findOne({email_id})
 
         const existingCafe = await Cafe.findOne({
             club_name,
             'location.address': address
         });
 
+        if (findBymail) {
+            return NextResponse.json({ message: 'Cafe with this email id already exists' }, { status: 409 });
+        }
         if (existingCafe) {
             return NextResponse.json({ message: 'Cafe with this name and address already exists' }, { status: 409 });
         }
@@ -68,10 +74,11 @@ export async function POST(req: NextRequest) {
             images_url,
             capacity,
             isActive: false,
+            email_id:email_id,
             password: hashedPassword,
         });
         await newCafe.save();
-        return NextResponse.json({ newCafe, message: "Registration successful" }, { status: 201 });
+        return NextResponse.json({ newCafe, message: "Registration successful", success:true }, { status: 201 });
     } catch (error) {
         console.error('Error:', error);
         return NextResponse.json({ message: (error as Error).message || 'Internal Server Error' }, { status: 500 });

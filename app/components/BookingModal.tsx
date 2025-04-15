@@ -26,7 +26,9 @@ export const BookingModal = ({
   setBookingInfo
 }: BookingModalProps) => (
   <div className="fixed inset-0 z-50 bg-black bg-opacity-70 flex items-center justify-center">
+    
     <div className="bg-gray-900 rounded-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto p-6 shadow-lg relative">
+   
       <button
         onClick={onClose}
         className="absolute top-4 right-4 text-gray-400 hover:text-white text-2xl"

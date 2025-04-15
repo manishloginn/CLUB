@@ -24,10 +24,35 @@ export async function POST(req: NextRequest) {
       price
     });
     await newMenu.save();
-    return NextResponse.json({ newMenu, message: 'Menu added successfully' }, { status: 201 });
+    return NextResponse.json({ newMenu, message: 'Menu added successfully', success: true, }, { status: 201 });
 
   } catch (error) {
     console.error('Menu API Error:', error);
     return NextResponse.json({ message: 'Internal Server Error' }, { status: 500 });
+  }
+}
+
+
+export async function GET(req: Request) {
+  try {
+    await dbConnect();
+    const { searchParams } = new URL(req.url);
+    const cafeId = searchParams.get('cafeId');
+
+    
+
+    if (!cafeId) {
+      return NextResponse.json(
+        { success: false, message: 'Cafe ID is required' },
+        { status: 400 }
+      );
+    }
+    const menus = await Menu.find({ cafeId });
+    return NextResponse.json({ success: true, data: menus }, { status: 200 });
+  } catch (error) {
+    return NextResponse.json(
+      { success: false, message: 'Failed to fetch menus' },
+      { status: 500 }
+    );
   }
 }

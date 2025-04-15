@@ -11,26 +11,26 @@ import BookingCollectRequest from "@/app/schema/booking-collect-requeststatus";
 export async function POST(req: NextRequest): Promise<NextResponse> {
     await dbConnect();
     const body = await req.json();
-     const details = JSON.stringify(body);
+    const details = JSON.stringify(body);
     const { payload, event } = body;
     let { order_id, amount, method, status, bank, acquirer_data, error_reason, id } = payload.payment.entity;
     let { created_at } = payload.payment;
 
-    
+
     try {
-        const updateBooking = await Booking.findOneAndUpdate({ order_id}, { status: "SUCCESS" }, { new: true });
-        const updateCollectRequest = await new BookingCollectRequest({
-            collect_id: updateBooking?._id,
-            order_amount: updateBooking?.totalPrice,
-            transaction_amount: updateBooking?.totalPrice,
-            status: "SUCCESS",
-            details: details,
-            bank_reference: acquirer_data.bank_transaction_id || acquirer_data.rrn,
-            payment_time: Date.now().toString(),
-            reason: error_reason,
-            payment_message: event,
-            payment_id: id,
-        })
+        const updateBooking = await Booking.findOneAndUpdate({ order_id }, { status: "SUCCESS" }, { new: true });
+        const updateCollectRequest = await BookingCollectRequest.findOneAndUpdate(
+            { order_id },
+            {
+                status: "SUCCESS",
+                details: details,
+                bank_reference: acquirer_data.bank_transaction_id || acquirer_data.rrn,
+                payment_time: Date.now().toString(),
+                reason: error_reason,
+                payment_message: event,
+                payment_id: id,
+            }
+        )
 
         updateCollectRequest.save()
 

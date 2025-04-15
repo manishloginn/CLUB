@@ -4,6 +4,7 @@ import Booking from '@/app/schema/booking-schema';
 import MenuItem from '@/app/schema/menu-schema'; // assuming this is your menu schema
 import Razorpay from 'razorpay';
 import { i } from 'framer-motion/client';
+import BookingCollectRequest from '@/app/schema/booking-collect-requeststatus';
 
 
 const razorpay = new Razorpay({
@@ -19,7 +20,7 @@ export async function POST(req: NextRequest) {
         const {
             userId,
             cafeId,
-            menuItemIds, 
+            menuItemIds,
             date,
             timeSlot,
             numberOfPeople
@@ -52,7 +53,7 @@ export async function POST(req: NextRequest) {
         const newBooking = new Booking({
             userId,
             cafeId,
-            menuItems: comboNames, 
+            menuItems: comboNames,
             date,
             timeSlot,
             numberOfPeople,
@@ -62,25 +63,35 @@ export async function POST(req: NextRequest) {
         });
         await newBooking.save();
 
+        const updateCollectRequest = await new BookingCollectRequest({
+            collect_id: newBooking?._id,
+            order_amount: newBooking?.totalPrice,
+            transaction_amount: newBooking?.totalPrice,
+            status: "PENDING",
+            details: "",
+            bank_reference: "",
+            payment_time: "",
+            reason: "",
+            payment_message: "",
+            payment_id: "",
+        })
+        updateCollectRequest.save()
+
         const razorOptions = {
-            amount: totalPrice * 100, 
+            amount: totalPrice * 100,
             currency: 'INR',
             receipt: `receipt_${newBooking._id}`,
         };
-        
 
         const order = await razorpay.orders.create(razorOptions);
-
-        
         if (!order) {
             return NextResponse.json({ message: 'Failed to create payment order' }, { status: 500 });
         }
-        if(order.status === 'created') {
-            const updateBooking = await Booking.findByIdAndUpdate(newBooking._id, 
-            {
-                status: order.status,
-                order_id: order.id || "",
-            })
+        if (order.status === 'created') {
+            const updateBooking = await Booking.findByIdAndUpdate(newBooking._id,
+                {
+                    order_id: order.id || "",
+                })
         }
         // 🔵 Razorpay order created: {
         //     amount: 219900,

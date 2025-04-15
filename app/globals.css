@@ -56,3 +56,19 @@ body {
   0%, 100% { opacity: 0.3 }
   50% { opacity: 0.6 }
 }
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #2d2d2d;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #a855f7;
+  border-radius: 4px;
+}
+
+

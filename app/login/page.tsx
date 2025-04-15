@@ -45,8 +45,24 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 to-black p-8 flex items-center justify-center">
-      <div className="bg-gray-800 rounded-2xl shadow-2xl w-full max-w-md p-8 space-y-6">
+    <div className=" relative min-h-screen bg-gradient-to-br from-gray-900 to-black p-8 flex items-center justify-center">
+      <div className="absolute inset-0 overflow-hidden  z-0">
+        {[...Array(100)].map((_, i) => (
+          <div
+            key={i}
+            className="absolute rounded-full bg-pink-400/20"
+            style={{
+              top: `${Math.random() * 100}%`,
+              left: `${Math.random() * 100}%`,
+              width: `${Math.random() * 10 + 5}px`,
+              height: `${Math.random() * 10 + 5}px`,
+              animation: `float ${Math.random() * 10 + 10}s linear infinite`,
+              opacity: Math.random() * 0.4 + 0.1
+            }}
+          />
+        ))}
+      </div>
+      <div className="bg-gray-800 rounded-2xl shadow-2xl w-full max-w-md p-8 space-y-6 z-10">
         <header className="text-center">
           <h1 className="text-5xl font-bold bg-gradient-to-r from-purple-400 to-pink-500 bg-clip-text text-transparent mb-2 font-space">
             🔑 VIP Access

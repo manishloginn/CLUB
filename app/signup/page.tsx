@@ -59,8 +59,24 @@ export default function SignupPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 to-black flex items-center justify-center p-4">
-      <div className="w-full max-w-md bg-gray-800 rounded-2xl shadow-lg overflow-hidden border border-gray-700">
+    <div className=" relative min-h-screen bg-gradient-to-br from-gray-900 to-black flex items-center justify-center p-4">
+     <div className="absolute inset-0 overflow-hidden  z-0">
+        {[...Array(100)].map((_, i) => (
+          <div
+            key={i}
+            className="absolute rounded-full bg-pink-400/20"
+            style={{
+              top: `${Math.random() * 100}%`,
+              left: `${Math.random() * 100}%`,
+              width: `${Math.random() * 10 + 5}px`,
+              height: `${Math.random() * 10 + 5}px`,
+              animation: `float ${Math.random() * 10 + 10}s linear infinite`,
+              opacity: Math.random() * 0.4 + 0.1
+            }}
+          />
+        ))}
+      </div>
+      <div className="z-10 w-full max-w-md bg-gray-800 rounded-2xl shadow-lg overflow-hidden ">
         <div className="p-8">
           <div className="text-center mb-8">
             <div className="w-16 h-16 bg-gradient-to-r from-purple-600 to-pink-500 rounded-full flex items-center justify-center mx-auto mb-4">
